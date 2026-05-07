@@ -1,0 +1,38 @@
+import heapq
+freq = {'A':10,'B':15,'C':30,'D':16,'E':29}
+
+class Node:
+    def __init__(self,f,s=None,l=None,r=None):
+        self.f=f; self.s=s; self.l=l; self.r=r
+    def __lt__(self,o): return self.f<o.f
+
+heap=[Node(f,s) for s,f in freq.items()]
+heapq.heapify(heap)
+
+while len(heap)>1:
+    a=heapq.heappop(heap)
+    b=heapq.heappop(heap)
+    heapq.heappush(heap,Node(a.f+b.f,None,a,b))
+
+def codes(n,c="",d={}):
+    if n:
+        if n.s: d[n.s]=c
+        codes(n.l,c+"0",d)
+        codes(n.r,c+"1",d)
+    return d
+
+c = codes(heap[0])
+print("Codes:",c)
+
+text="CABED"
+enc="".join(c[ch] for ch in text)
+print("Encoded:",enc)
+
+# Decode
+rev={v:k for k,v in c.items()}
+cur=""; dec=""
+for bit in enc:
+    cur+=bit
+    if cur in rev:
+        dec+=rev[cur]; cur=""
+print("Decoded:",dec) #1a
