@@ -1,0 +1,19 @@
+from PIL import Image
+import os
+os.makedirs("album",exist_ok=True)
+
+for f in os.listdir():
+    if f.endswith(".jpg"):
+        img=Image.open(f)
+        img.thumbnail((800,600))
+        img.save("album/"+f)
+
+print("Images resized successfully") #4a
+
+from collections import Counter
+
+logs=['video1','video2','video1','video3','video4','video1','video2','video5','video1','video3']
+c=Counter(logs)
+
+print(c)
+print("Most popular:",c.most_common(1)[0]) #4b
