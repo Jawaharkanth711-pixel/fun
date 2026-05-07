@@ -1,0 +1,39 @@
+data="MULTIMEDIACOMPRESSIONANDSTORAGE"
+disks=[[],[],[],[]]
+
+for i,ch in enumerate(data):
+    disks[i%4].append(ch)
+
+for i,d in enumerate(disks):
+    print("Disk",i,"".join(d)) #5a
+
+req=[98,183,40,122,10,124,65]
+head=53
+
+# SSTF
+rem=req[:]
+cur=head; seek=0
+seq=[head]
+
+while rem:
+    x=min(rem,key=lambda r:abs(r-cur))
+    seek+=abs(cur-x)
+    cur=x
+    seq.append(x)
+    rem.remove(x)
+
+print("SSTF Seek:",seek)
+print("SSTF Seq:",seq)
+
+# SCAN (towards 0)
+req.sort()
+left=[r for r in req if r< head]
+right=[r for r in req if r>=head]
+
+seq=[head]+list(reversed(left))+right
+seek=0
+for i in range(len(seq)-1):
+    seek+=abs(seq[i]-seq[i+1])
+
+print("SCAN Seek:",seek)
+print("SCAN Seq:",seq) #5b
