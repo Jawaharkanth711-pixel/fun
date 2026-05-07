@@ -1,0 +1,35 @@
+#!/bin/bash
+for img in *.png *.bmp *.tiff *.gif
+do
+    if [ -f "$img" ]; then
+        output="${img%.*}.jpg"
+        convert "$img" "$output"
+        echo "$img -> $output"
+    fi
+done
+
+echo "Conversion Done"  #3a
+
+touch img.png img.bmp img.gif
+touch convert.sh
+ls
+nano convert.sh (c+o,enter,c+x)
+chmod +x convert.sh
+./convert.sh
+
+
+#pip install opencv-python
+
+import cv2
+cap = cv2.VideoCapture("my_video.mp4")
+i = 0
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+
+    cv2.imwrite(f"frame{i}.jpg", frame)
+    i += 1
+cap.release()
+
+print("Total frames extracted:", i) #3b
